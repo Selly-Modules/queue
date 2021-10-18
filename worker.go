@@ -2,6 +2,7 @@ package queue
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/hibiken/asynq"
 )
@@ -37,6 +38,12 @@ func NewWorker(cfg Config) *asynq.ServeMux {
 			priorityLow:      cfg.Priority.Low,
 		},
 		StrictPriority: cfg.Priority.StrictMode,
+
+		// TODO:
+		// This is default option, retry after 10s, will add to config later
+		RetryDelayFunc: func(n int, e error, t *asynq.Task) time.Duration {
+			return 10 * time.Second
+		},
 	})
 
 	// Init mux server
