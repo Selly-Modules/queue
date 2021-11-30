@@ -14,6 +14,7 @@ func (i Instance) RunTask(typename string, payload []byte, priority string, retr
 	if priority != PriorityCritical && priority != PriorityDefault && priority != PriorityLow {
 		priority = PriorityDefault
 	}
+	options = append(options, asynq.Queue(priority))
 
 	// Retry times
 	if retryTimes < 0 {
