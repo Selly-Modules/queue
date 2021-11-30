@@ -14,6 +14,8 @@ type Instance struct {
 	Scheduler *asynq.Scheduler
 }
 
+var instance Instance
+
 // NewInstance ...
 func NewInstance(cfg Config) Instance {
 	// Init redis connection
@@ -24,7 +26,6 @@ func NewInstance(cfg Config) Instance {
 	}
 
 	// Init instance
-	instance := Instance{}
 	instance.Server = initServer(redisConn, cfg)
 	instance.Scheduler = initScheduler(redisConn)
 	instance.Client = initClient(redisConn)
