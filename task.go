@@ -5,10 +5,15 @@ import (
 )
 
 // RunTask ...
-func (i Instance) RunTask(typename string, payload []byte, retryTimes int) (*asynq.TaskInfo, error) {
+func (i Instance) RunTask(typename string, payload []byte, priority string, retryTimes int) (*asynq.TaskInfo, error) {
 	// Create task and options
 	task := asynq.NewTask(typename, payload)
 	options := make([]asynq.Option, 0)
+
+	// Priority
+	if priority != PriorityCritical && priority != PriorityDefault && priority != PriorityLow {
+		priority = PriorityDefault
+	}
 
 	// Retry times
 	if retryTimes < 0 {

@@ -2,7 +2,7 @@ package queue
 
 // Constant
 const (
-	priorityCritical = "critical"
-	priorityDefault  = "default"
-	priorityLow      = "low"
+	PriorityCritical = "critical"
+	PriorityDefault  = "default"
+	PriorityLow      = "low"
 )

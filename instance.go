@@ -52,9 +52,9 @@ func initServer(redisConn asynq.RedisClientOpt, cfg Config) *asynq.ServeMux {
 	server := asynq.NewServer(redisConn, asynq.Config{
 		Concurrency: cfg.Concurrency,
 		Queues: map[string]int{
-			priorityCritical: cfg.Priority.Critical,
-			priorityDefault:  cfg.Priority.Default,
-			priorityLow:      cfg.Priority.Low,
+			PriorityCritical: cfg.Priority.Critical,
+			PriorityDefault:  cfg.Priority.Default,
+			PriorityLow:      cfg.Priority.Low,
 		},
 		StrictPriority: cfg.Priority.StrictMode,
 
