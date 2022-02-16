@@ -12,6 +12,8 @@ type Instance struct {
 	Client    *asynq.Client
 	Server    *asynq.ServeMux
 	Scheduler *asynq.Scheduler
+
+	Config Config
 }
 
 var instance Instance
@@ -29,6 +31,7 @@ func NewInstance(cfg Config) Instance {
 	instance.Server = initServer(redisConn, cfg)
 	instance.Scheduler = initScheduler(redisConn)
 	instance.Client = initClient(redisConn)
+	instance.Config = cfg
 
 	// Return instance
 	return instance
