@@ -2,6 +2,11 @@ package queue
 
 import (
 	"github.com/hibiken/asynq"
+	"time"
+)
+
+const (
+	NoTimeout time.Duration = 0
 )
 
 // RunTask ...
@@ -21,6 +26,11 @@ func (i Instance) RunTask(typename string, payload []byte, priority string, retr
 		retryTimes = 0
 	}
 	options = append(options, asynq.MaxRetry(retryTimes))
+
+	// Task timeout
+	if i.Configs.TaskTimeout != 0 {
+		options = append(options, asynq.Timeout(i.Configs.TaskTimeout))
+	}
 
 	// Enqueue task
 	return i.Client.Enqueue(task, options...)

@@ -1,5 +1,7 @@
 package queue
 
+import "time"
+
 // Config ...
 type Config struct {
 	// For message queue
@@ -10,6 +12,8 @@ type Config struct {
 	// https://github.com/hibiken/asynq/wiki/Queue-Priority
 	Concurrency int
 	Priority    ConfigPriority
+
+	TaskTimeout time.Duration
 }
 
 // ConfigRedis ...
