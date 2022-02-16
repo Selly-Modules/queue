@@ -28,8 +28,8 @@ func (i Instance) RunTask(typename string, payload []byte, priority string, retr
 	options = append(options, asynq.MaxRetry(retryTimes))
 
 	// Task timeout
-	if i.Configs.TaskTimeout != 0 {
-		options = append(options, asynq.Timeout(i.Configs.TaskTimeout))
+	if i.Config.TaskTimeout != 0 {
+		options = append(options, asynq.Timeout(i.Config.TaskTimeout))
 	}
 
 	// Enqueue task
