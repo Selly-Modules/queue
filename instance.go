@@ -109,3 +109,8 @@ func initClient(redisConn asynq.RedisClientOpt) *asynq.Client {
 	}
 	return client
 }
+
+// GetInstance ...
+func GetInstance() Instance {
+  return instance
+}
