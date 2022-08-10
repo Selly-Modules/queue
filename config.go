@@ -1,6 +1,10 @@
 package queue
 
-import "time"
+import (
+	"time"
+
+	"github.com/hibiken/asynq"
+)
 
 // Config ...
 type Config struct {
@@ -13,7 +17,8 @@ type Config struct {
 	Concurrency int
 	Priority    ConfigPriority
 
-	TaskTimeout time.Duration
+	TaskTimeout    time.Duration
+	RetryDelayFunc asynq.RetryDelayFunc
 }
 
 // ConfigRedis ...

@@ -50,6 +50,13 @@ func initServer(redisConn asynq.RedisClientOpt, cfg Config) *asynq.ServeMux {
 		cfg.Priority.Low = 1
 		cfg.Priority.StrictMode = false
 	}
+	retryDelayFunc := cfg.RetryDelayFunc
+	if retryDelayFunc == nil {
+		// Default delay in 10s
+		retryDelayFunc = func(n int, e error, t *asynq.Task) time.Duration {
+			return 10 * time.Second
+		}
+	}
 
 	// Init server
 	server := asynq.NewServer(redisConn, asynq.Config{
@@ -61,11 +68,7 @@ func initServer(redisConn asynq.RedisClientOpt, cfg Config) *asynq.ServeMux {
 		},
 		StrictPriority: cfg.Priority.StrictMode,
 
-		// TODO:
-		// This is default option, retry after 10s, will add to config later
-		RetryDelayFunc: func(n int, e error, t *asynq.Task) time.Duration {
-			return 10 * time.Second
-		},
+		RetryDelayFunc: retryDelayFunc,
 	})
 
 	// Init mux server
@@ -112,5 +115,5 @@ func initClient(redisConn asynq.RedisClientOpt) *asynq.Client {
 
 // GetInstance ...
 func GetInstance() Instance {
-  return instance
+	return instance
 }
