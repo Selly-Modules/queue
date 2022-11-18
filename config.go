@@ -17,8 +17,9 @@ type Config struct {
 	Concurrency int
 	Priority    ConfigPriority
 
-	TaskTimeout    time.Duration
-	RetryDelayFunc asynq.RetryDelayFunc
+	TaskTimeout       time.Duration
+	RetryDelayFunc    asynq.RetryDelayFunc
+	ServerMiddlewares []asynq.MiddlewareFunc
 }
 
 // ConfigRedis ...

@@ -12,6 +12,7 @@ type Instance struct {
 	Client    *asynq.Client
 	Server    *asynq.ServeMux
 	Scheduler *asynq.Scheduler
+	Inspector *asynq.Inspector
 
 	Config Config
 }
@@ -31,6 +32,7 @@ func NewInstance(cfg Config) Instance {
 	instance.Server = initServer(redisConn, cfg)
 	instance.Scheduler = initScheduler(redisConn)
 	instance.Client = initClient(redisConn)
+	instance.Inspector = initInspector(redisConn)
 	instance.Config = cfg
 
 	// Return instance
@@ -73,6 +75,9 @@ func initServer(redisConn asynq.RedisClientOpt, cfg Config) *asynq.ServeMux {
 
 	// Init mux server
 	mux := asynq.NewServeMux()
+	if len(cfg.ServerMiddlewares) > 0 {
+		mux.Use(cfg.ServerMiddlewares...)
+	}
 
 	// Run server
 	go func() {
@@ -111,6 +116,10 @@ func initClient(redisConn asynq.RedisClientOpt) *asynq.Client {
 		panic("error when initializing queue CLIENT")
 	}
 	return client
+}
+
+func initInspector(redisConn asynq.RedisClientOpt) *asynq.Inspector {
+	return asynq.NewInspector(redisConn)
 }
 
 // GetInstance ...
